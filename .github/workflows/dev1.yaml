@@ -19,13 +19,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+    - uses: local_actions/build_tools_setup@v1
       with:
         python-version: ${{ matrix.python-version }}
-
-    - name: Install Requirements
-      run: pip install -r requirements/dev.txt
 
     - name: Run tests
     - run: pytest
