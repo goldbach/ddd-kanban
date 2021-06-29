@@ -19,7 +19,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - uses: local_actions/build_tools_setup@v1
+    - name: Setup Build Tool
+      uses: local_actions/build_tools_setup@v1
       with:
         python-version: ${{ matrix.python-version }}
 
