@@ -1,0 +1,16 @@
+inputs:
+  python-version:
+    description: doh
+    default: 3.9
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: Set up Python ${{ input.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ input.python-version }}
+
+    - name: Install Requirements
+      run: pip install -r requirements/dev.txt
