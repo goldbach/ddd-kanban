@@ -25,7 +25,7 @@ jobs:
         python-version: ${{ input.python-version }}
 
     - name: Setup Build Tool
-      uses: ./.github/local/build_tools_setup
+      uses: ./.github/actions/build_tools_setup
       with:
         python-version: ${{ matrix.python-version }}
 
