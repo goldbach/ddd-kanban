@@ -19,6 +19,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Set up Python ${{ input.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ input.python-version }}
+
     - name: Setup Build Tool
       uses: ./.github/local/build_tools_setup
       with:
