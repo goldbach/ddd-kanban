@@ -6,11 +6,10 @@ inputs:
     required: true
     description: doh
 
-
 runs:
   using: "composite"
   steps:
 
-
     - name: Install Requirements
+      shell: bash
       run: pip install -r requirements/dev.txt
