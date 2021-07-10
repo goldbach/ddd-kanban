@@ -8,7 +8,9 @@ from kanban.domain.model.board import Board, Column, Repository
 
 class JsonBoardRepo(Repository):
 
-    path = 'json_repos/board/'
+    def __init__(self, dir: str):
+        self.path = os.path.join(dir, 'board')
+        os.makedirs(self.path, exist_ok=True)
 
     def put(self, board: Board):
         fh = open(os.path.join(

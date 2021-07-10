@@ -17,6 +17,7 @@ class Column(Entity):
                 {list(task for task in self.workitem_ids)}
         """
 
+
 @dataclass
 class Board(Entity):
     name: str

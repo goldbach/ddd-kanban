@@ -8,7 +8,9 @@ from kanban.domain.model.workitem import WorkItem, Repository
 
 class JsonWorkItemRepo(Repository):
 
-    path = 'json_repos/workitem/'
+    def __init__(self, dir: str):
+        self.path = os.path.join(dir, 'workitem')
+        os.makedirs(self.path, exist_ok=True)
 
     def put(self, work_item: WorkItem):
         fh = open(os.path.join(
