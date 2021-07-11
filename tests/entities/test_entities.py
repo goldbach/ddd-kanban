@@ -1,4 +1,18 @@
+import pytest
+
 from kanban.domain.model import Board, WorkItem
+
+@pytest.fixture()
+def board_with_columns(board):
+    board.add_column('col1')
+    board.add_column('col2')
+    board.add_column('col3')
+    return board
+
+
+@pytest.fixture()
+def workitem():
+    return WorkItem.create(name='some title', description='some text')
 
 
 def test_board_can_be_created():
@@ -25,3 +39,27 @@ def test_workitem_creation():
     task = WorkItem.create(**data)
     assert task.name == data['name']
     assert task.description == data['description']
+
+
+def test_schedule_task(board_with_columns, workitem):
+    board_with_columns.schedule_work_item(workitem)
+    assert workitem.id in board_with_columns._columns[0].workitem_ids
+
+
+def test_assert_on_double_schedule_task(board_with_columns, workitem):
+    board_with_columns.schedule_work_item(workitem)
+    with pytest.raises(Exception):
+        board_with_columns.schedule_work_item(workitem)
+
+
+def test_advance_workitem(board_with_columns, workitem):
+    board_with_columns.schedule_work_item(workitem)  # now in col1
+
+    board_with_columns.advance_work_item(workitem)  # now in col2
+    assert workitem.id not in board_with_columns._columns[0].workitem_ids
+    assert workitem.id in board_with_columns._columns[1].workitem_ids
+
+    board_with_columns.advance_work_item(workitem)  # now in col3
+
+    with pytest.raises(Exception):  # reached end of board
+        board_with_columns.advance_work_item(workitem)

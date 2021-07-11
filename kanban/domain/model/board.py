@@ -31,18 +31,17 @@ class Board(Entity):
 
     def schedule_work_item(self, task: WorkItem):
         if any([task.id in col.workitem_ids for col in self._columns]):
-            print(f'{task.id} already present')
-            return
+            raise Exception(f'{task.id} already scheduled on board')
         self._columns[0].workitem_ids.append(task.id)
 
     def advance_work_item(self, task: WorkItem):
         for idx, col in enumerate(self._columns):
             if task.id in col.workitem_ids:
-                col.workitem_ids.remove(task.id)
                 try:
                     self._columns[idx+1].workitem_ids.append(task.id)
                 except IndexError:
-                    pass
+                    raise Exception(f'could not advance workitem {task.id} - no more columns')
+                col.workitem_ids.remove(task.id)
                 return
 
     def reverse_work_item(self, task: WorkItem):
