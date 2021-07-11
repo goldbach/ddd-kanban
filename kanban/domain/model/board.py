@@ -47,16 +47,13 @@ class Board(Entity):
     def reverse_work_item(self, task: WorkItem):
         for idx, col in enumerate(self._columns):
             if task.id in col.workitem_ids:
+                if idx == 0:
+                    raise Exception(f'could not reverse workitem {task.id} - already at the beginning')
                 col.workitem_ids.remove(task.id)
-                try:
-                    self._columns[idx-1].workitem_ids.append(task.id)
-                except IndexError:
-                    pass
+                self._columns[idx-1].workitem_ids.append(task.id)
                 return
 
     def __repr__(self):
-        # for col in self._columns:
-        #     print(col)
         return f"""
         {self.name}:
             {list(col for col in self._columns)}

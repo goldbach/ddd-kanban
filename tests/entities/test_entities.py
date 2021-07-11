@@ -63,3 +63,14 @@ def test_advance_workitem(board_with_columns, workitem):
 
     with pytest.raises(Exception):  # reached end of board
         board_with_columns.advance_work_item(workitem)
+
+
+def test_reverse_workitem(board_with_columns, workitem):
+    board_with_columns.schedule_work_item(workitem)  # now in col1
+    board_with_columns.advance_work_item(workitem)  # now in col2
+
+    board_with_columns.reverse_work_item(workitem)  # now in col1
+    assert workitem.id in board_with_columns._columns[0].workitem_ids
+
+    with pytest.raises(Exception):
+        board_with_columns.reverse_work_item(workitem)
