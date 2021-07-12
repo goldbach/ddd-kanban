@@ -1,9 +1,48 @@
 
+import click
+
 from kanban.domain.model import Board, WorkItem
 from kanban.infrastructure.repos.json_work_item_repo import JsonWorkItemRepo
 from kanban.infrastructure.repos.json_board_repo import JsonBoardRepo
 
 PREFIX_DB = '/tmp/kanban_db'
+
+@click.group()
+def cli():
+    pass
+
+
+@cli.group()
+def board():
+    pass
+
+
+@cli.group()
+def workitem():
+    pass
+
+
+@board.command(name='list')
+def board_list():
+    print('board listing')
+
+
+@board.command(name='new')
+@click.argument('name')
+def board_new(name):
+    print(f'creating board {name}')
+
+
+@workitem.command(name='list')
+def workitem_list():
+    print('workitem listing')
+
+
+@workitem.command(name='new')
+@click.argument('title')
+@click.argument('description')
+def workitem_new(title, description):
+    print(f'creating workitem with {title} and desc {description}')
 
 
 def main():
@@ -41,4 +80,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    cli()
