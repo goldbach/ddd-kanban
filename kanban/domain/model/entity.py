@@ -12,7 +12,9 @@ class Entity:
 
     @classmethod
     def create(cls, **kwargs):
-        return cls(_id=get_id(), **kwargs)
+        new_id = get_id()
+        print(f'Creating {cls} with id {new_id}')
+        return cls(_id=new_id, **kwargs)
 
     @property
     def id(self):
