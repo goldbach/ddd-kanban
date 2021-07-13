@@ -3,7 +3,7 @@ import click
 
 from kanban.infrastructure.repos.json_work_item_repo import JsonWorkItemRepo
 from kanban.infrastructure.repos.json_board_repo import JsonBoardRepo
-from cli import create_cli_app
+from kanban.cli import create_cli_app
 
 PREFIX_DB = '/tmp/kanban_db'
 
