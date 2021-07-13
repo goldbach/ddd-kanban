@@ -3,9 +3,13 @@ import click
 
 from kanban.domain.model.workitem import Repository as WorkItemRepo
 from kanban.domain.model.board import Repository as BoardRepo
-from kanban.service.workitem import NewWorkItemCommand, NewWorkItemHandler
+from kanban.service.workitem import NewWorkItemCommand, NewWorkItemHandler, ListItemsQuery
 from kanban.service.board import NewBoardCommand, NewBoardHandler
 
+
+def cli_list_item_presenter(data):
+    for item in data:
+        print(f'{item.id[:6]}\t{item.name}')
 
 def create_cli_app(board_repo: BoardRepo, work_item_repo: WorkItemRepo):
     @click.group()
@@ -32,10 +36,10 @@ def create_cli_app(board_repo: BoardRepo, work_item_repo: WorkItemRepo):
         handler = NewBoardHandler(board_repo)
         handler(cmd)
 
-
     @workitem.command(name='list')
     def workitem_list():
-        print('workitem listing')
+        q = ListItemsQuery(work_item_repo)
+        q(cli_list_item_presenter)
 
     @workitem.command(name='new')
     @click.argument('name')

@@ -17,3 +17,13 @@ class NewWorkItemHandler:
     def __call__(self, cmd):
         task = WorkItem.create(name=cmd.name, description=cmd.description)
         self.repo.put(task)
+
+
+class ListItemsQuery:
+
+    def __init__(self, workitem_repo):
+        self.repo = workitem_repo
+
+    def __call__(self, presenter):
+        data = self.repo.list_items()
+        return presenter(data)
