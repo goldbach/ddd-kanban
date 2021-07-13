@@ -19,3 +19,7 @@ class Repository(ABC):
     @abstractmethod
     def work_item_by_id(self, id):
         raise NotImplementedError
+
+    @abstractmethod
+    def list_items(self):
+        raise NotImplementedError

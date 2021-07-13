@@ -25,3 +25,7 @@ class JsonWorkItemRepo(Repository):
             f'{id}.json'
         ), 'r')
         return WorkItem(**json.load(fh))
+
+    def list_items(self):
+        ids = [x.split('.')[0] for x in os.listdir(self.path)]
+        return [self.work_item_by_id(_id) for _id in ids]
