@@ -1,13 +1,7 @@
 import pytest
 
-from kanban.domain.model import WorkItem
 from kanban.infrastructure.repos.inmem_work_item_repo import InMemWorkItemRepo
 from kanban.infrastructure.repos.json_work_item_repo import JsonWorkItemRepo
-
-workitem_data = {
-    'name': 'title',
-    'description': 'some text',
-}
 
 
 @pytest.fixture()
@@ -25,10 +19,9 @@ def workitem_repo(request):
     return request.getfixturevalue(request.param)
 
 
-def test_repo_putget_workitem(workitem_repo):
-    task = WorkItem.create(**workitem_data)
-    workitem_repo.put(task)
+def test_repo_putget_workitem(workitem_repo, workitem):
+    workitem_repo.put(workitem)
 
-    retrieved_task = workitem_repo.work_item_by_id(task.id)
-    assert retrieved_task == task
-    assert retrieved_task is not task
+    retrieved_task = workitem_repo.work_item_by_id(workitem.id)
+    assert retrieved_task == workitem
+    assert retrieved_task is not workitem
