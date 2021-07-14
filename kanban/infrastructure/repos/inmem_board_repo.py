@@ -5,9 +5,8 @@ from kanban.domain.model.board import Board, Column, Repository
 
 class InMemBoardRepo(Repository):
 
-    _boards = {}
-
     def __init__(self, initial_lst=None):
+        self._boards = {}
         if initial_lst is not None:
             for item in initial_lst:
                 self._boards[item.id] = item
@@ -20,3 +19,6 @@ class InMemBoardRepo(Repository):
         b = Board(**obj)
         b._columns = [Column(**x) for x in b._columns]
         return b
+
+    def list_boards(self):
+        return [Board(**x) for x in self._boards.values()]

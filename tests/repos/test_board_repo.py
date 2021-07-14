@@ -25,3 +25,10 @@ def test_repo_putget_board(board_repo, board_with_columns):
     retrieved_task = board_repo.board_by_id(board_with_columns.id)
     assert retrieved_task == board_with_columns
     assert retrieved_task is not board_with_columns
+
+
+def test_repo_list_boards(board_repo, board):
+    board_repo.put(board)
+
+    boards = board_repo.list_boards()
+    assert boards == [board, ]

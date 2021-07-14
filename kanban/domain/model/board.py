@@ -69,3 +69,7 @@ class Repository(ABC):
     @abstractmethod
     def board_by_id(self, id):
         raise NotImplementedError
+
+    @abstractmethod
+    def list_boards(self):
+        raise NotImplementedError

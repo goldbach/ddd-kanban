@@ -27,3 +27,7 @@ class JsonBoardRepo(Repository):
         b = Board(**json.load(fh))
         b._columns = [Column(**x) for x in b._columns]
         return b
+
+    def list_boards(self):
+        ids = [x.split('.')[0] for x in os.listdir(self.path)]
+        return [self.board_by_id(_id) for _id in ids]
