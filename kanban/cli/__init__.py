@@ -1,17 +1,16 @@
 
 import click
 
-from kanban.domain.model.workitem import Repository as WorkItemRepo
-from kanban.domain.model.board import Repository as BoardRepo
-from kanban.service.workitem import NewWorkItemCommand, NewWorkItemHandler, ListItemsQuery
-from kanban.service.board import NewBoardCommand, NewBoardHandler
+from kanban.service.workitem import NewWorkItemCommand
+from kanban.service.board import NewBoardCommand
 
 
 def cli_list_item_presenter(data):
     for item in data:
         print(f'{item.id[:6]}\t{item.name}')
 
-def create_cli_app(board_repo: BoardRepo, work_item_repo: WorkItemRepo):
+
+def create_cli_app(app_config):
     @click.group()
     def cli():
         pass
@@ -31,14 +30,12 @@ def create_cli_app(board_repo: BoardRepo, work_item_repo: WorkItemRepo):
     @board.command(name='new')
     @click.argument('name')
     def board_new(name):
-        print(f'creating board {name}')
         cmd = NewBoardCommand(name)
-        handler = NewBoardHandler(board_repo)
-        handler(cmd)
+        app_config['handlers']['new_board'](cmd)
 
     @workitem.command(name='list')
     def workitem_list():
-        q = ListItemsQuery(work_item_repo)
+        q = app_config['queries']['list_items']
         q(cli_list_item_presenter)
 
     @workitem.command(name='new')
@@ -47,7 +44,6 @@ def create_cli_app(board_repo: BoardRepo, work_item_repo: WorkItemRepo):
     def workitem_new(name, description):
         print(f'creating workitem with {name} and desc {description}')
         cmd = NewWorkItemCommand(name, description)
-        handler = NewWorkItemHandler(work_item_repo)
-        handler(cmd)
+        app_config['handlers']['new_work_item'](cmd)
 
     return cli

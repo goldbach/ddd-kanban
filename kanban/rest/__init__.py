@@ -1,9 +1,7 @@
 from fastapi import FastAPI
 
-from kanban.domain.model.workitem import Repository as WorkItemRepo
-from kanban.domain.model.board import Repository as BoardRepo
-from kanban.service.workitem import NewWorkItemCommand, NewWorkItemHandler, ListItemsQuery
-from kanban.service.board import NewBoardCommand, NewBoardHandler
+from kanban.service.workitem import NewWorkItemCommand
+from kanban.service.board import NewBoardCommand
 
 from pydantic import BaseModel
 from dataclasses import asdict
@@ -22,7 +20,7 @@ def rest_list_items_presenter(data):
     return [asdict(x) for x in data]
 
 
-def create_rest_app(board_repo: BoardRepo, work_item_repo: WorkItemRepo):
+def create_rest_app(app_config):
 
     app = FastAPI()
 
@@ -33,18 +31,16 @@ def create_rest_app(board_repo: BoardRepo, work_item_repo: WorkItemRepo):
     @app.post('/board')
     def post_new_board(board: NewBoard):
         cmd = NewBoardCommand(board.name)
-        handler = NewBoardHandler(board_repo)
-        handler(cmd)
+        app_config['handlers']['new_board'](cmd)
 
     @app.get('/workitem')
     def get_items():
-        q = ListItemsQuery(work_item_repo)
+        q = app_config['queries']['list_items']
         return q(rest_list_items_presenter)
 
     @app.post('/workitem')
     def post_new_work_item(workitem: NewWorkItem):
         cmd = NewWorkItemCommand(name=workitem.name, description=workitem.description)
-        handler = NewWorkItemHandler(work_item_repo)
-        handler(cmd)
+        app_config['handlers']['new_work_item'](cmd)
 
     return app
