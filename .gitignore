@@ -3,3 +3,4 @@
 .venv
 venv
 json_repos
+.pytest_cache
