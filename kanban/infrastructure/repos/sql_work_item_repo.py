@@ -1,10 +1,7 @@
-from dataclasses import asdict
-
 from kanban.domain.model.workitem import WorkItem, Repository
 
 from sqlalchemy import create_engine, Table, MetaData, Column, String
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm import mapper, relationship
+from sqlalchemy.orm import sessionmaker, mapper
 
 
 metadata = MetaData()
@@ -24,7 +21,7 @@ def start_mappers():
 start_mappers()
 
 
-def sql_session(engine_url='sqlite:///workitem.db'):
+def sql_session(engine_url):
     engine = create_engine(engine_url)
     metadata.create_all(engine)
     return sessionmaker(bind=engine)()

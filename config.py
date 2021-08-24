@@ -1,5 +1,4 @@
 
-from kanban.infrastructure.repos.json_work_item_repo import JsonWorkItemRepo
 from kanban.infrastructure.repos.sql_work_item_repo import SQLWorkItemRepo, sql_session
 
 from kanban.infrastructure.repos.json_board_repo import JsonBoardRepo
@@ -14,7 +13,6 @@ SQLITE_DB = 'sqlite:////tmp/kanban.sqlite'
 def create_app_config():
 
     board_repo = JsonBoardRepo(PREFIX_DB),
-#    work_item_repo = JsonWorkItemRepo(PREFIX_DB)
     work_item_repo = SQLWorkItemRepo(sql_session(SQLITE_DB))
 
     app_config = {
