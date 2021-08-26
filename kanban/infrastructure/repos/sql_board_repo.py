@@ -1,4 +1,4 @@
-from kanban.domain.model.board import Board, Column, Repository
+from kanban.domain.model.board import Board, Repository
 
 
 class SQLBoardRepo(Repository):

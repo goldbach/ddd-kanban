@@ -1,6 +1,6 @@
 
 from kanban.infrastructure.repos.sql_work_item_repo import SQLWorkItemRepo
-from kanban.infrastructure.repos.orm import sql_session
+from kanban.infrastructure.repos.orm import sql_session, start_mappers
 
 from kanban.infrastructure.repos.sql_board_repo import SQLBoardRepo
 

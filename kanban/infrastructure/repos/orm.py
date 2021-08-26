@@ -35,6 +35,15 @@ column_table = Table(
     Column('name', String(256)),
 )
 
+""" workitem_ids_table = Table(
+    'item_ids',
+    metadata,
+    Column('id', String(36), primay_key=True),
+    Column('column_id', String(36), ForeignKey('column._id')),
+
+)
+ """
+
 
 def start_mappers():
     mapper(WorkItem, workitem_table)
@@ -48,6 +57,3 @@ def sql_session(engine_url):
     engine = create_engine(engine_url)
     metadata.create_all(engine)
     return sessionmaker(bind=engine)()
-
-
-start_mappers()

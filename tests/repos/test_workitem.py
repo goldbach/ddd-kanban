@@ -1,3 +1,5 @@
+from sqlalchemy.orm import clear_mappers
+from kanban.infrastructure.repos.orm import start_mappers
 import pytest
 
 from kanban.infrastructure.repos.inmem_work_item_repo import InMemWorkItemRepo
@@ -17,7 +19,9 @@ def json_workitem_repo(tmp_path):
 
 @pytest.fixture(scope='function')
 def sql_workitem_repo(sql_session):
-    return SQLWorkItemRepo(session=sql_session)
+    start_mappers()
+    yield SQLWorkItemRepo(session=sql_session)
+    clear_mappers()
 
 
 @pytest.fixture(params=['json_workitem_repo', 'inmem_workitem_repo', 'sql_workitem_repo'], scope='function')
