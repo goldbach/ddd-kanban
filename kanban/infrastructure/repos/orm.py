@@ -1,7 +1,14 @@
-from sqlalchemy import create_engine, Table, MetaData, Column, String
-from sqlalchemy.orm import sessionmaker, mapper
+from sqlalchemy import (
+    create_engine,
+    Table,
+    MetaData,
+    Column,
+    String,
+    ForeignKey
+)
+from sqlalchemy.orm import relationship, sessionmaker, mapper
 from kanban.domain.model.workitem import WorkItem
-from kanban.domain.model.board import Board
+from kanban.domain.model.board import Board, Column as BoardColumn
 
 
 metadata = MetaData()
@@ -20,10 +27,21 @@ board_table = Table(
     Column('name', String(256)),
 )
 
+column_table = Table(
+    'column',
+    metadata,
+    Column('_id', String(36), primary_key=True),
+    Column('board_id', String(36), ForeignKey('board._id')),
+    Column('name', String(256)),
+)
+
 
 def start_mappers():
     mapper(WorkItem, workitem_table)
-    mapper(Board, board_table)
+    mapper(Board, board_table, properties={
+        '_columns': relationship(BoardColumn, backref='board'),
+    })
+    mapper(BoardColumn, column_table)
 
 
 def sql_session(engine_url):

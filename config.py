@@ -2,7 +2,7 @@
 from kanban.infrastructure.repos.sql_work_item_repo import SQLWorkItemRepo
 from kanban.infrastructure.repos.orm import sql_session
 
-from kanban.infrastructure.repos.json_board_repo import JsonBoardRepo
+from kanban.infrastructure.repos.sql_board_repo import SQLBoardRepo
 
 from kanban.service.workitem import NewWorkItemHandler, ListItemsQuery
 from kanban.service.board import NewBoardHandler, NewColumnHandler, ListBoardsQuery
@@ -13,7 +13,7 @@ SQLITE_DB = 'sqlite:////tmp/kanban.sqlite'
 
 def create_app_config():
 
-    board_repo = JsonBoardRepo(PREFIX_DB)
+    board_repo = SQLBoardRepo(sql_session(SQLITE_DB))
     work_item_repo = SQLWorkItemRepo(sql_session(SQLITE_DB))
 
     app_config = {
