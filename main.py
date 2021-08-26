@@ -1,3 +1,4 @@
+from kanban.infrastructure.repos.orm import start_mappers
 from kanban.cli import create_cli_app
 from config import create_app_config
 

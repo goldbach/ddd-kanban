@@ -13,6 +13,8 @@ SQLITE_DB = 'sqlite:////tmp/kanban.sqlite'
 
 def create_app_config():
 
+    start_mappers()
+
     board_repo = SQLBoardRepo(sql_session(SQLITE_DB))
     work_item_repo = SQLWorkItemRepo(sql_session(SQLITE_DB))
 
