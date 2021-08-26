@@ -2,7 +2,7 @@ import pytest
 
 from kanban.infrastructure.repos.inmem_work_item_repo import InMemWorkItemRepo
 from kanban.infrastructure.repos.json_work_item_repo import JsonWorkItemRepo
-from kanban.infrastructure.repos.sql_work_item_repo import SQLWorkItemRepo, sql_session as real_sql_session
+from kanban.infrastructure.repos.sql_work_item_repo import SQLWorkItemRepo
 
 
 @pytest.fixture(scope='function')
@@ -13,11 +13,6 @@ def inmem_workitem_repo():
 @pytest.fixture(scope='function')
 def json_workitem_repo(tmp_path):
     return JsonWorkItemRepo(tmp_path)
-
-
-@pytest.fixture(scope='function')
-def sql_session():
-    return real_sql_session('sqlite://')  # inmem
 
 
 @pytest.fixture(scope='function')
